@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="wclassth=device-wclassth, initial-scale=1.0" />
+  <title>Document</title>
+  <style>
+    body {
+      background-color: black;
+    }
+
+    h1 {
+      color: white;
+    }
+
+    .fb {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      height: 3rem;
+      width: 20rem;
+      margin: 1rem;
+      background-color: grey;
+      color: white;
+
+    }
+
+    .btn:hover {
+      cursor: grab;
+    }
+  </style>
+  <script>
+    function f1() {
+      const txt = `Pract 1 :- DCL and DDL
+DDL
+drop table student;
+create table student(id varchar(20),name varchar(20),age int,department varchar(20));
+alter table student add email varchar(20);
+ALTER TABLE Student DROP COLUMN age;
+drop table student;
+
+DQL
+create table student(id varchar(20),name varchar(20),age int,department varchar(20));
+SELECT * FROM student;
+
+DML
+create table student(id varchar(20),name varchar(20),age int, department varchar(20));
+insert into student values("1","Atharva",21,"IT");
+insert into student values("2","Mohit",22,"IT");
+insert into student values("3","Harsh",20,"IT");
+insert into student values("4","Aayush",17,"IT");
+SELECT * FROM student where department="IT";
+update student 
+set age=21 where id="2";
+SELECT * FROM student where department="IT";
+Delete from student where id="4";
+SELECT * FROM student where department="IT";
+
+DCL
+create table student(id varchar(20),name varchar(20),age int,department varchar(20));
+-- grant select,update on student to 'Atharv Ambulkar';
+REVOKE INSERT ON Student FROM 'Atharv';
+
+TCL
+CREATE TABLE student (
+    id VARCHAR(20),
+    name VARCHAR(20),
+    age INT,
+    department VARCHAR(20)
+);
+
+INSERT INTO student VALUES ("1", "Atharva", 21, "IT");
+INSERT INTO student VALUES ("2", "Mohit", 22, "IT");
+-- commit
+-- Rollback
+
+SAVEPOINT Savepoint1;
+
+SELECT * FROM student WHERE department = "IT";
+
+INSERT INTO student VALUES ("3", "Harsh", 20, "IT");
+INSERT INTO student VALUES ("4", "Aayush", 17, "IT");
+
+ROLLBACK TO Savepoint1;
+
+SELECT * FROM student WHERE department = "IT";
+`;
+      navigator.clipboard.writeText(txt);
+      document.getElementsByTagName('body')[0].style.backgroundColor = 'black';
+
+    }
+
+    function f2() {
+      const txt = `pract 2 :- DML  10 Queries
+CREATE TABLE student (
+    id VARCHAR(20),
+    name VARCHAR(20),
+    age INT,
+    department VARCHAR(20),
+    email varchar(20)
+);
+
+INSERT INTO student VALUES ("1", "Atharva", 21, "IT","a2@gmail.com");
+INSERT INTO student VALUES ("2", "Atharv", 20, "CSE","a2@gmail.com");
+
+INSERT INTO student VALUES ("3", "Mohit", 21, "IT","mohit@gmail.com");
+INSERT INTO student VALUES ("4", "Ayush", 17, "CIVIL","ayush@gmail.com");
+INSERT INTO student VALUES ("5", "Rushi", 20, "IT","rushi@gmail.com");
+INSERT INTO student VALUES ("6", "Harsh", 19, "ENTC","harsh@gmail.com");
+
+
+
+SELECT * FROM student WHERE email like "a2%";
+SELECT * FROM student order by name Desc limit 3;
+SELECT * FROM student WHERE email like 'a%'AND name like 'a%';
+SELECT * FROM student WHERE department in ('IT','CSE');
+SELECT * FROM student WHERE name not like 'a%';
+SELECT * FROM student WHERE department in ('IT','CSE');
+SELECT * FROM student WHERE department="CIVIL" OR age="21";
+SELECT * FROM student WHERE id between 1 and 4;
+SELECT * FROM student
+WHERE age > ALL (
+    SELECT age FROM student WHERE department = 'CSE'
+);
+SELECT * FROM student
+WHERE age = ANY (
+    SELECT age FROM student WHERE department = 'IT'
+);
+SELECT * FROM student
+WHERE age > SOME (
+    SELECT age FROM student WHERE department = 'ENTC'
+);
+SELECT * FROM student s1
+WHERE EXISTS (
+    SELECT 1 FROM student s2
+    WHERE s2.email = s1.email AND s2.id != s1.id
+);
+SELECT id, name, age - id AS "age+id"
+FROM student;
+SELECT id, name, age - id AS "age-id"
+FROM student;`;
+      navigator.clipboard.writeText(txt);
+      document.getElementsByTagName('body')[0].style.backgroundColor = 'black';
+
+    }
+    function f3() {
+      const txt = `Practial 3 :- Nested Subqueries
+CREATE TABLE student (
+    id varchar(2),
+    name varchar(20),
+    address varchar(20),
+    age int,
+    phone varchar(10)
+);
+
+INSERT INTO student VALUES ("1", "Atharva",'Amravati', 21, "9011931");
+INSERT INTO student VALUES ("2", "Atharv",'Pune', 20, "902254");
+INSERT INTO student VALUES ("3", "Mohit", "Thane",21, "84558");
+INSERT INTO student VALUES ("4", "Ayush","Sambhajinagar", 17, "4585885");
+INSERT INTO student VALUES ("5", "Rushi", "Paratwada",20, "579648");
+INSERT INTO student VALUES ("6", "Harsh","Mumbai", 19, "758465");
+
+
+CREATE TABLE courseTable (
+    c_id varchar(20),
+    c_name varchar(20)
+);
+
+INSERT INTO courseTable VALUES ("C1","DSA");
+INSERT INTO courseTable VALUES ("c2","Programming");
+INSERT INTO courseTable VALUES ("c3","DBMS");
+
+SELECT * FROM student
+WHERE address IN (
+    SELECT address FROM student WHERE age < 20
+);
+SELECT * FROM student
+WHERE age > SOME (
+    SELECT age FROM student WHERE address = 'Mumbai'
+);
+SELECT * FROM student
+WHERE age >= SOME (
+    SELECT age FROM student WHERE address = 'Pune'
+);
+
+SELECT * FROM student
+WHERE age > ALL (
+    SELECT age FROM student WHERE address = 'Sambhajinagar'
+);
+SELECT * FROM student
+WHERE age = ALL (
+    SELECT age FROM student WHERE address = 'Paratwada'
+);`;
+      navigator.clipboard.writeText(txt);
+      document.getElementsByTagName('body')[0].style.backgroundColor = 'black';
+
+    }
+
+
+
+
+    async function f4() {
+        const txt = `practical 4 :- Trigger
+CREATE TABLE EMPLOYEE (
+    empId INT PRIMARY KEY,
+    name VARCHAR(50),
+    dept VARCHAR(58)
+);
+
+CREATE TABLE EMPLOYEE_LOG (
+    logId INT IDENTITY(1,1) PRIMARY KEY,
+    empId INT,
+    name VARCHAR(50),
+    dept VARCHAR(50),
+    action VARCHAR(20),
+    logDate DATETIME DEFAULT GETDATE()
+);
+GO
+
+CREATE TRIGGER trg_RowLevel_Insert
+ON EMPLOYEE
+AFTER INSERT
+AS
+BEGIN
+    INSERT INTO EMPLOYEE_LOG (empId, name, dept, action)
+    SELECT empId, name, dept, 'ROW-INSERT'
+    FROM inserted;
+END;
+GO
+
+INSERT INTO EMPLOYEE (empId, name, dept) VALUES (101, 'Alice', 'HR');
+SELECT * FROM EMPLOYEE_LOG;
+GO
+
+CREATE TABLE STATEMENT_LOG (
+    actionId INT IDENTITY(1,1),
+    actionType VARCHAR(20),
+    affectedRows INT,
+    logDate DATETIME DEFAULT GETDATE()
+);
+GO
+
+CREATE TRIGGER trg_StatementLevel_Update
+ON EMPLOYEE
+AFTER UPDATE
+AS
+BEGIN
+    DECLARE @rowCount INT;
+    SELECT @rowCount = COUNT(*) FROM inserted;
+END;`;
+      
+        try {
+          await navigator.clipboard.writeText(txt);
+          document.body.style.backgroundColor = 'black';
+          console.log('Code copied successfully!');
+        } catch (err) {
+          console.error('Failed to copy: ', err);
+        }
+      }
+      
+    function f5() {
+      const txt = `Practical No 5
+ CRUD mongodb:
+ test> use Student
+ switched to db Student--CREATTE
+ Student> db.adbms.insertMany([
+ ...   { _id: 1, name: "Aditi", age: 20, course: "B.Tech", marks: 78 },
+ ...   { _id: 2, name: "Rohan", age: 21, course: "B.Sc", marks: 88 },
+ ...   { _id: 3, name: "Simran", age: 22, course: "BCA", marks: 69 },
+ ...   { _id: 4, name: "Raj", age: 20, course: "B.Tech", marks: 55 }
+ ... ])
+ Output:
+ [
+  { _id: 1, name: 'Aditi', age: 20, course: 'B.Tech', marks: 78 },
+  { _id: 2, name: 'Rohan', age: 21, course: 'B.Sc', marks: 88 },
+  { _id: 3, name: 'Simran', age: 22, course: 'BCA', marks: 69 },
+  { _id: 4, name: 'Raj', age: 20, course: 'B.Tech', marks: 55 }
+ ]-------------------------------------------------------------------------Read
+ Student> db.adbms.find()
+ [
+  { _id: 1, name: 'Aditi', age: 20, course: 'B.Tech', marks: 78 },
+  { _id: 2, name: 'Rohan', age: 21, course: 'B.Sc', marks: 88 },
+  { _id: 3, name: 'Simran', age: 22, course: 'BCA', marks: 69 },
+  { _id: 4, name: 'Raj', age: 20, course: 'B.Tech', marks: 55 }
+ ]--------------------------------------------------------------------------Update:
+ Student> db.adbms.updateOne(
+ ...   { _id: 5 },
+ ...   {
+ ...     $set: {
+ ...       name: "Meera",
+ ...       age: 23,
+ ...       course: "MCA",
+ ...       marks: 91
+ ...     }
+ ...   },
+ ...   { upsert: true }
+ ... )
+ ...
+ {
+  acknowledged: true,
+  insertedId: 5,
+  matchedCount: 0,
+  modifiedCount: 0,
+  upsertedCount: 1
+ }
+ Output:
+ Student> db.adbms.find()
+[
+ { _id: 1, name: 'Aditi', age: 20, course: 'B.Tech', marks: 78 },
+ { _id: 2, name: 'Rohan', age: 21, course: 'B.Sc', marks: 88 },
+ { _id: 3, name: 'Simran', age: 22, course: 'BCA', marks: 69 },
+ { _id: 4, name: 'Raj', age: 20, course: 'B.Tech', marks: 55 },
+ { _id: 5, age: 23, course: 'MCA', marks: 91, name: 'Meera' }
+ ]-----------------------------------------------------------------------------------Delete
+ Student> db.adbms.deleteOne({ name: "Simran" })
+ { acknowledged: true, deletedCount: 1 }
+ Output
+ Student> db.adbms.find()
+ [
+ { _id: 1, name: 'Aditi', age: 20, course: 'B.Tech', marks: 78 },
+ { _id: 2, name: 'Rohan', age: 21, course: 'B.Sc', marks: 88 },
+ { _id: 4, name: 'Raj', age: 20, course: 'B.Tech', marks: 65 },
+ { _id: 5, age: 23, course: 'MCA', marks: 91, name: 'Meera' }
+ ]`;
+      navigator.clipboard.writeText(txt);
+      document.getElementsByTagName('body')[0].style.backgroundColor = 'black';
+
+    }
+
+    function f6() {
+      const txt = `Practical No 6:- mongodb crud + logical ope
+ test> use Student
+ switched to db Student
+ Student> db.adbms.insertMany([
+ ...   { _id: 1, name: "Aditi", age: 20, course: "B.Tech", marks: 78 },
+ ...   { _id: 2, name: "Rohan", age: 21, course: "B.Sc", marks: 88 },
+ ...   { _id: 3, name: "Simran", age: 22, course: "BCA", marks: 69 },
+ ...   { _id: 4, name: "Raj", age: 20, course: "B.Tech", marks: 55 }
+ ... ])
+ Output:
+ [
+  { _id: 1, name: 'Aditi', age: 20, course: 'B.Tech', marks: 78 },
+  { _id: 2, name: 'Rohan', age: 21, course: 'B.Sc', marks: 88 },
+  { _id: 3, name: 'Simran', age: 22, course: 'BCA', marks: 69 },
+  { _id: 4, name: 'Raj', age: 20, course: 'B.Tech', marks: 55 }
+ ]----------------------------------------------------------------------
+Update:
+ Student> db.adbms.updateOne(
+ ...   { _id: 5 },
+ ...   {
+ ...     $set: {
+ ...       name: "Meera",
+ ...       age: 23,
+ ...       course: "MCA",
+ ...       marks: 91
+ ...     }
+ ...   },
+ ...   { upsert: true }
+ ... )
+ ...
+ {
+  acknowledged: true,
+  insertedId: 5,
+  matchedCount: 0,
+  modifiedCount: 0,
+  upsertedCount: 1
+ }
+ Output:
+ Student> db.adbms.find()
+ [
+  { _id: 1, name: 'Aditi', age: 20, course: 'B.Tech', marks: 78 },
+  { _id: 2, name: 'Rohan', age: 21, course: 'B.Sc', marks: 88 },
+  { _id: 3, name: 'Simran', age: 22, course: 'BCA', marks: 69 },
+  { _id: 4, name: 'Raj', age: 20, course: 'B.Tech', marks: 55 },
+  { _id: 5, age: 23, course: 'MCA', marks: 91, name: 'Meera' }
+ ]--------------------------------------------------------------------------------
+Read
+ Student> db.adbms.find()
+ [
+  { _id: 1, name: 'Aditi', age: 20, course: 'B.Tech', marks: 78 },
+  { _id: 2, name: 'Rohan', age: 21, course: 'B.Sc', marks: 88 },
+  { _id: 3, name: 'Simran', age: 22, course: 'BCA', marks: 69 },
+  { _id: 4, name: 'Raj', age: 20, course: 'B.Tech', marks: 55 },
+  { _id: 5, age: 23, course: 'MCA', marks: 91, name: 'Meera' }
+ ]----------------------------------------------------------------------------------
+ logical operator:--Or
+ Student> db.adbms.find({ $or: [ { marks: { $gt: 70 } }, { age: { $lt: 21 } } ] })
+ output:
+ [
+  { _id: 1, name: 'Aditi', age: 20, course: 'B.Tech', marks: 78 },
+  { _id: 2, name: 'Rohan', age: 21, course: 'B.Sc', marks: 88 },
+  { _id: 4, name: 'Raj', age: 20, course: 'B.Tech', marks: 55 },
+  { _id: 5, age: 23, course: 'MCA', marks: 91, name: 'Meera' }
+ ]--And
+ Student> db.adbms.find({ $and: [ { marks: { $gt: 70 } }, { course: "B.Tech" } ] 
+})
+ output:
+ [ { _id: 1, name: 'Aditi', age: 20, course: 'B.Tech', marks: 78 } ]--Not
+ Student> Student> db.adbms.find({ course: { $not: { $eq: "B.Tech" } } })
+ Output:
+ ... [
+ ...   { _id: 2, name: 'Rohan', age: 21, course: 'B.Sc', marks: 88 },
+ ...   { _id: 3, name: 'Simran', age: 22, course: 'BCA', marks: 69 },
+ ...   { _id: 5, age: 23, course: 'MCA', marks: 91, name: 'Meera' }
+ ... ]---------------------------------------------------------------------------------Update
+ Student> db.adbms.updateOne(
+ ...   { name: "Raj" },
+ ...   { $set: { marks: 65 } }
+ ... )
+ {
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+ }
+ output:
+ Student> db.adbms.find()
+ [
+  { _id: 1, name: 'Aditi', age: 20, course: 'B.Tech', marks: 78 },
+  { _id: 2, name: 'Rohan', age: 21, course: 'B.Sc', marks: 88 },
+  { _id: 3, name: 'Simran', age: 22, course: 'BCA', marks: 69 },
+{ _id: 4, name: 'Raj', age: 20, course: 'B.Tech', marks: 65 },
+ { _id: 5, age: 23, course: 'MCA', marks: 91, name: 'Meera' }
+ ]--------------------------------------------------------------------------------------Delete
+ Student> db.adbms.deleteOne({ name: "Simran" })
+ { acknowledged: true, deletedCount: 1 }
+ Output
+ Student> db.adbms.find()
+ [
+ { _id: 1, name: 'Aditi', age: 20, course: 'B.Tech', marks: 78 },
+ { _id: 2, name: 'Rohan', age: 21, course: 'B.Sc', marks: 88 },
+ { _id: 4, name: 'Raj', age: 20, course: 'B.Tech', marks: 65 },
+ { _id: 5, age: 23, course: 'MCA', marks: 91, name: 'Meera' }
+ ]`;
+      navigator.clipboard.writeText(txt);
+      document.getElementsByTagName('body')[0].style.backgroundColor = 'black';
+
+    }
+
+    function f7() {
+      const txt = `Practical 7--Implementation aggregation and indexing with suitable example using MongoDB
+ test> use Student
+ switched to db Student--AVG
+ Student> db.college.insertMany([
+ ...   
+{ _id: 1, name: "Aditi", course: "B.Tech", marks: 78, age: 20 },
+ ...   
+...   
+...   
+...   
+... ])
+ {
+ { _id: 2, name: "Rohan", course: "B.Sc", marks: 88, age: 21 },
+ { _id: 3, name: "Simran", course: "BCA", marks: 69, age: 22 },
+ { _id: 4, name: "Raj", course: "B.Tech", marks: 55, age: 20 },
+ { _id: 5, name: "Meera", course: "MCA", marks: 91, age: 23 }
+ acknowledged: true,
+ insertedIds: { '0': 1, '1': 2, '2': 3, '3': 4, '4': 5 }
+ }
+ Student> db.college.find()
+ [
+ { _id: 1, name: 'Aditi', course: 'B.Tech', marks: 78, age: 20 },
+ { _id: 2, name: 'Rohan', course: 'B.Sc', marks: 88, age: 21 },
+ { _id: 3, name: 'Simran', course: 'BCA', marks: 69, age: 22 },
+ { _id: 4, name: 'Raj', course: 'B.Tech', marks: 55, age: 20 },
+ { _id: 5, name: 'Meera', course: 'MCA', marks: 91, age: 23 }
+ ]--Total
+ Student> db.college.aggregate([
+ ...   
+{ $group: { _id: "$course", totalStudents: { $sum: 1 } } }
+ ... ])
+ [
+ { _id: 'B.Sc', totalStudents: 1 },
+ { _id: 'B.Tech', totalStudents: 2 },
+ { _id: 'MCA', totalStudents: 1 },
+ { _id: 'BCA', totalStudents: 1 }
+ ]--Max
+ Student> db.college.aggregate([
+ ...   
+{ $group: { _id: "$course", maxMarks: { $max: "$marks" } } }
+ ... ])
+ [
+ { _id: 'BCA', maxMarks: 69 },
+ { _id: 'B.Tech', maxMarks: 78 },
+ { _id: 'MCA', maxMarks: 91 },
+ { _id: 'B.Sc', maxMarks: 88 }
+ ]
+ >>Indexing
+ Student> db.college.createIndex({ marks: 1 })
+ marks_1
+ Student> db.college.createIndex({ course: 1, age: -1 })
+ course_1_age_-1
+db.college.getIndexes() 
+Student> db.college.getIndexes()
+ [
+ { v: 2, key: { id: 1 }, name: '_id' },
+ { v: 2, key: { marks: 1 }, name: 'marks_1' },
+ { v: 2, key: { course: 1, age: -1 }, name: 'course_1_age_-1' }
+ ]
+ Student> db.college.dropIndex({ marks: 1 })
+ { nIndexesWas: 3, ok: 1 }`;
+      navigator.clipboard.writeText(txt);
+      document.getElementsByTagName('body')[0].style.backgroundColor = 'black';
+
+    }
+
+    function f8() {
+      const txt = `practical 8 :- 5 queries using Mongo DB
+test> use users
+	switched to db users
+	users> use pratical8
+	switched to db pratica19
+	pratica19> db. pratica19.insertOne({
+	userName: "Sanskar",
+	userEmaiI: "sanskar@gmail.com" ,
+	userAge: 29,
+	hobbies: ["Painting" , "Cycling" ]})
+{
+	acknowledged: true,
+	insertedld: Objectld( '680680988a3981bca1cc8988')
+}
+
+pratica19> db. pratical9.find({userAge:{$gt:25}})
+[{
+id: Objectld('68e68e988a3981bca1cc8988'),
+userName: 'Sanskar' ,
+userEmai1: 'sanskar@gmail.com' ,
+userAge: 29,
+hobbies: [ 'Painting', 'Cycling' ]
+}]
+pratical9> db. pratical9.updateOne({username : "Sanskar"}, {$set : {userEmai1 : "san@gmail.com"}})
+{acknowledged: true,
+insertedld: null,
+matchedCount: 1,
+modifiedCount: 1,
+upsertedCount: 0
+}
+pratical9> db.practical9.find({})
+[
+{
+id: Objectld('68e6E88a3981bca1cc8988'),
+userName: 'Sanskar ,
+userEmai1: 'sar@gmail.com' ,
+userAge: 29,
+hobbies: [ 'Painting' ,
+'Cycling' ]
+}]
+pratica19> db. pratical9.de1eteOne({userName:"Sanskar"})
+{ acknowledged: true, deletedCount: 1 }`;
+      navigator.clipboard.writeText(txt);
+      document.getElementsByTagName('body')[0].style.backgroundColor = 'black';
+
+    }
+
+    function f9() {
+      const txt = `Practical 9 --Create simple objects and array objects using JSON
+ 1. Insert Simple Object:
+ test> use Student
+ switched to db Student
+ Student> db.learner.insertOne({
+ ...   name: "Aditi",
+ ...   age: 20,
+ ...   course: "B.Tech",
+ ...   marks: 85
+ ... })
+ {
+  acknowledged: true,
+  insertedId: ObjectId('6804dc74e3694180a9b5f899')
+ }
+ Student>  db.learner.find()
+ output:
+ [
+  {
+    _id: ObjectId('6804dc74e3694180a9b5f899'),
+    name: 'Aditi',
+    age: 20,
+    course: 'B.Tech',
+    marks: 85
+  }
+ ]
+ 2. Insert Object with Array
+ Student> db.learner.insertOne({
+ ...   name: "Rohan",
+ ...   age: 21,
+ ...   skills: ["C", "C++", "Python"]
+ ... })
+ {
+  acknowledged: true,
+  insertedId: ObjectId('6804dce9e3694180a9b5f89a')
+ }
+ Student>  db.learner.find()
+ [
+  {
+    _id: ObjectId('6804dc74e3694180a9b5f899'),
+    name: 'Aditi',
+    age: 20,
+    course: 'B.Tech',
+    marks: 85
+  },
+  {
+    _id: ObjectId('6804dce9e3694180a9b5f89a'),
+    name: 'Rohan',
+    age: 21,
+    skills: [ 'C', 'C++', 'Python' ]
+  }
+ ]
+3. Insert Array of Objects
+ Student> db.learner.insertMany([
+ ...   { name: "Simran", age: 22, course: "BCA" },
+ ...   { name: "Raj", age: 20, course: "B.Tech" }
+ ... ])
+ {
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('6804dd43e3694180a9b5f89b'),
+    '1': ObjectId('6804dd43e3694180a9b5f89c')
+  }
+ }
+ Student>  db.learner.find()
+ [
+  {
+    _id: ObjectId('6804dc74e3694180a9b5f899'),
+    name: 'Aditi',
+    age: 20,
+    course: 'B.Tech',
+    marks: 85
+  },
+  {
+    _id: ObjectId('6804dce9e3694180a9b5f89a'),
+    name: 'Rohan',
+    age: 21,
+    skills: [ 'C', 'C++', 'Python' ]
+  },
+  {
+    _id: ObjectId('6804dd43e3694180a9b5f89b'),
+    name: 'Simran',
+    age: 22,
+    course: 'BCA'
+  },
+  {
+    _id: ObjectId('6804dd43e3694180a9b5f89c'),
+    name: 'Raj',
+    age: 20,
+    course: 'B.Tech'
+  }
+ ]
+ 4. Insert Nested Object
+ Student> db.learner.insertOne({
+ ...   name: "Meera",
+ ...   age: 23,
+ ...   address: {
+ ...     city: "Pune",
+ ...     state: "Maharashtra"
+ ...   }
+ ... })
+ {
+  acknowledged: true,
+  insertedId: ObjectId('6804ddaee3694180a9b5f89d')
+ }
+Student>  db.learner.find()
+ [
+  {
+    _id: ObjectId('6804dc74e3694180a9b5f899'),
+    name: 'Aditi',
+    age: 20,
+    course: 'B.Tech',
+    marks: 85
+  },
+  {
+    _id: ObjectId('6804dce9e3694180a9b5f89a'),
+    name: 'Rohan',
+    age: 21,
+    skills: [ 'C', 'C++', 'Python' ]
+  },
+  {
+    _id: ObjectId('6804dd43e3694180a9b5f89b'),
+    name: 'Simran',
+    age: 22,
+    course: 'BCA'
+  },
+  {
+    _id: ObjectId('6804dd43e3694180a9b5f89c'),
+    name: 'Raj',
+    age: 20,
+    course: 'B.Tech'
+  },
+  {
+    _id: ObjectId('6804ddaee3694180a9b5f89d'),
+    name: 'Meera',
+    age: 23,
+    address: { city: 'Pune', state: 'Maharashtra' }
+  }
+ ]
+ Student> db.students.find().pretty()
+ [
+  { _id: 1, name: 'Aditi', age: 20, course: 'B.Tech', marks: 78 },
+  { _id: 2, name: 'Rohan', age: 21, course: 'B.Sc', marks: 88 },
+  { _id: 3, name: 'Simran', age: 22, course: 'BCA', marks: 69 },
+  { _id: 4, name: 'Raj', age: 20, course: 'B.Tech', marks: 55 },
+  { _id: 5, name: 'Meera', age: 23, course: 'MCA', marks: 91 }
+ ]`;
+      navigator.clipboard.writeText(txt);
+      document.getElementsByTagName('body')[0].style.backgroundColor = 'black';
+
+    }
+    function f10() {
+      const txt = `practical 10 encode dcode json :- 
+import json
+
+student={
+    "name":"Atharva",
+    "age":21,
+    "city":"amravati"
+}
+
+str=json.dumps(student)
+print(str)
+
+str3='{"name":"atharva","age":21,"city":"Amravati"}'
+str2=json.loads(str3)
+print("name:",str2["name"])
+print("age:",str2["age"])
+print("city:",str2["city"])`;
+      navigator.clipboard.writeText(txt);
+      document.getElementsByTagName('body')[0].style.backgroundColor = 'black';
+
+    }
+    
+
+  </script>
+</head>
+
+<body>
+  <h1>ADBMS</h1>
+  <div class="fb">
+
+    <button class="btn" onclick="f1()">DDL AND DCL</button>
+    <button class="btn" onclick="f2()">DML QUERIES</button>
+    <button class="btn" onclick="f3()">nested sub-queires</button>
+    <button class="btn" onclick="f4()">trigger</button>
+    <button class="btn" onclick="f5()">crud-mongodb</button>
+    <button class="btn" onclick="f6()">crud-mongodb+logical operator</button>
+    <button class="btn" onclick="f7()">aggregration and indexing</button>
+    <button class="btn" onclick="f8()">5 QUERIES by mongodb</button>
+    <button class="btn" onclick="f9()">array object by JSON</button>
+    <button class="btn" onclick="f10()">encode decode JSON object</button>
+
+  </div>
+  
+</body>
+
+</html>
